@@ -2,7 +2,7 @@ import math
 
 
 class Car:
-    def __init__(self, max_x: int, y: int, max_speed: int, accel: int):
+    def __init__(self, max_x: int, y: int, max_speed: int, accel: int = 1):
         self.max_speed = max_speed
         self.real_speed = self.max_speed
         self.accel = accel
