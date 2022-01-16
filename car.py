@@ -1,4 +1,5 @@
 import math
+from statistics import mean
 
 
 class Car:
@@ -9,6 +10,8 @@ class Car:
         self.x = -50
         self.max_x = max_x
         self.y = y
+        self.flow_data = []
+        self.avg_flow = 1
 
     def _get_next_ahead_car(self, cars: list):
         next_car = None
@@ -29,5 +32,7 @@ class Car:
             self.real_speed = ahead.real_speed
         elif self.real_speed < self.max_speed:
             self.real_speed += self.accel
+        self.flow_data.append(self.real_speed / self.max_speed)
+        self.avg_flow = mean(self.flow_data)
         self.x += self.real_speed / fps
 
