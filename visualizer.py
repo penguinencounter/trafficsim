@@ -1,3 +1,4 @@
+import math
 import os
 import typing
 from sys import platform
@@ -11,7 +12,6 @@ if 'linux' in platform:
 
 def init_screen(size):
     pygame.init()
-    print([k for k in dir(pygame) if k.islower()])
     return pygame.display.set_mode(size)
 
 
@@ -21,17 +21,23 @@ def mainloop(screen: pygame.Surface, target: typing.Callable, clean: typing.Opti
     while cont:
         clk.tick(250)
         cont = target(screen, clk.get_fps())
+    if clean is not None:
+        clean()
 
 
 def _keepalive(s, f):
-    print(f'{f} fps')
+    print('\b' * 21, end='', flush=True)
+    print(f'{math.floor(f)} fps'.ljust(20), end='', flush=True)
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             pygame.display.quit()
             pygame.quit()
             return False
-    col = (0, f, 0)
-    s.fill(col)
+    colpercent = (f / 250) * 255
+    areapercent = (f / 250) * 400
+    col = (255 - colpercent, colpercent, 0)
+    s.fill((0, 0, 0))
+    s.fill(col, (0, 0, areapercent, 10))
     pygame.display.flip()
     return True
 
