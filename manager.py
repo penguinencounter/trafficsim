@@ -7,7 +7,7 @@ from car import Car, step_all
 from visualizer import init_screen, mainloop
 
 
-cars = [Car(1000, 125, 10), Car(1000, 125, 8)]
+cars = [Car(1000, 10), Car(1000, 8)]
 
 
 def run(s: pygame.Surface, f: float):
@@ -17,14 +17,16 @@ def run(s: pygame.Surface, f: float):
             pygame.display.quit()
             pygame.quit()
             return False  # Stop
-    cars = step_all(cars)
+    cars = step_all(cars)  # imported
     if cars[0].x > 200:
-        cars.append(Car(10000, 125, random.randint(2, 12)))
+        cars.append(Car(1000, random.randint(2, 12)))
     s.fill((55, 95, 55))
     for c in cars:
         w = 100 + c.x if c.x <= 0 else 100
         x = c.x if c.x > 0 else 0
-        s.fill((65, 65, 65), Rect(x, c.y, w, 50))
+        r = 125 if c.real_speed < c.max_speed else 65
+        s.fill((r, 65, 65), Rect(x, 125, w, 50))
+        s.fill((0, 0, 255), Rect(x, 125, 10, c.max_speed*2))
     pygame.display.flip()
     return True  # Don't stop
 

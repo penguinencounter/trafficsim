@@ -18,7 +18,7 @@ def mainloop(screen: pygame.Surface, target: typing.Callable, clean: typing.Opti
     cont = True
     clk = pygame.time.Clock()
     while cont:
-        clk.tick(20)
+        clk.tick(60)
         cont = target(screen, clk.get_fps())
     if clean is not None:
         clean()
